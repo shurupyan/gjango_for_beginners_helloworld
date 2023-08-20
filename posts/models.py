@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -9,7 +9,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         "auth.User",
         on_delete=models.CASCADE,
-        default=User.objects.get_by_natural_key(username="admin").pk,
+        default=get_user_model().objects.get_by_natural_key(username="admin").pk,
     )
     body = models.TextField()
 
@@ -17,4 +17,4 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("post detail", kwargs={"pk": self.pk})
+        return reverse("post_detail", kwargs={"pk": self.pk})
