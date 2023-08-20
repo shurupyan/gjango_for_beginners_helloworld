@@ -8,19 +8,29 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-<header>
-    <div class="nav-left">
-        <a href="{% url 'home' %}" target="_blank">Django blog</a>
-        <a href="{% url 'about' %}" target="_blank">About</a>
-        <a href="{% url 'admin:index' %}" target="_blank">Admin</a>
-    </div>
-    <div class="nav-right">
-        <a href="{% url 'post_new' %}" target="_blank">+ New Blog Post</a>
-    </div>
-</header>
-
 <div>
-    {% block content %}{% endblock content %}
+    <header>
+        <div class="nav-left">
+            <a href="{% url 'about' %}" target="_blank">About</a>
+            {% if user.is_superuser %}
+            <a href="{% url 'admin:index' %}" target="_blank">Admin</a>
+            {% endif %}
+            <h1><a href="{% url 'home' %}" target="_blank">Django blog</a></h1>
+        </div>
+        <div class="nav-right">
+            <a href="{% url 'post_new' %}" target="_blank">+ New Blog Post</a>
+        </div>
+    </header>
+    {% if user.is_authenticated %}
+    <p>Hi {{ user.username }}</p>
+    <a href="{% url 'logout' %}">Log Out</a>
+    {% else %}
+    <p>Please login or signup</p>
+    <a href="{% url 'login' %}">Log In</a> |
+    <a href="{% url 'signup' %}">Sign Up</a>
+    {% endif %}
 </div>
+{% block content %}{% endblock content %}
+
 </body>
 </html>
