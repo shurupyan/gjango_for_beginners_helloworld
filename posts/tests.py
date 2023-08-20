@@ -45,3 +45,25 @@ class PostTests(TestCase):
     def test_inexistent_post_detailpage(self):
         response = self.client.get(reverse("post_detail", kwargs={"pk": 10000}))
         self.assertEqual(response.status_code, 404)
+
+    def test_post_createview(self):
+        response = self.client.post(
+            reverse("post_new"),
+            {"title": "New title", "body": "New body", "author": self.user.pk},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Post.objects.last().title, "New title")
+        self.assertEqual(Post.objects.last().body, "New body")
+
+    def test_post_updateview(self):
+        response = self.client.post(
+            reverse("post_edit", args="1"),
+            {"title": "Updated title", "body": "Updated body", "author": self.user.pk},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Post.objects.last().title, "Updated title")
+        self.assertEqual(Post.objects.last().body, "Updated body")
+
+    def test_post_deleteview(self):
+        response = self.client.post(reverse("post_delete", args="1"))
+        self.assertEqual(response.status_code, 302)
