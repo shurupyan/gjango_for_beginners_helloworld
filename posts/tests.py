@@ -1,4 +1,4 @@
-from django.test import TestCase, SimpleTestCase
+from django.test import TestCase
 from django.urls import reverse
 from .models import Post
 

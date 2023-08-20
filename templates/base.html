@@ -1,13 +1,23 @@
 <!-- templates/about.html -->
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Django Blog</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <header>
-    <a href="{% url 'home' %}" target="_blank">Home</a>
+    <a href="{% url 'home' %}" target="_blank">Django blog</a>
     <a href="{% url 'about' %}" target="_blank">About</a>
+    <a href="{% url 'admin:index' %}" target="_blank">Admin</a>
 </header>
-{% block content %}{% endblock content %}
+<body>
+<header>
+    <h1><a href="{% url 'home' %}" target="_blank">Django blog</a></h1>
+</header>
+<div>
+    {% block content %}{% endblock content %}
+</div>
+</body>
 </html>
